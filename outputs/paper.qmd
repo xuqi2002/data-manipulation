@@ -23,6 +23,8 @@ I generate 1,000 observations from a normal distribution with mean 1 and standar
 
 -   Data cleaning errors: Two manipulations that make error were introduced in data cleaning. Firstly, half of the negative values were changed to positive values, which changed the distribution of the data. In addition, values between 1 and 1.1 were accidentally shifted by a decimal place, which reduced their magnitude.
 
+Statistical programming software R [@r]  with additional support package `knitr` [@knitr] were used. 
+
 ## Result
 
 Following data manipulation, I conducted a statistical analysis to examine the mean of the altered dataset, to determine whether the mean of the true data generating process is greater than 0.
