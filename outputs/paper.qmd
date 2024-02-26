@@ -1,7 +1,7 @@
 ---
 title: "Analysis of Data Manipulation: Implications and Corrective Strategies"
 author: Xu Qi
-thanks: "Code and data are available at: https://github.com/xuqi2002/gender_gap_and_hate_crime. Feedback given by Yichen Shi is available at:"
+thanks: "Code and data are available at: https://github.com/xuqi2002/data-manipulation. Feedback given by Yichen Shi is available at: https://github.com/xuqi2002/data-manipulation/issues/1"
 date: "`r format(Sys.time(), '%d %B %Y')`"
 abstract: "This study investigates the effects of data processing errors, including instrument limitations and data manipulations on statistical analysis. By introducing such errors into a dataset generated from a normal distribution, I demonstrate how these errors can bias the mean and skew findings. The results of the study emphasize the importance of keeping vigilance and adopting a structured approach in data processing to prevent analytical inaccuracies and to maintain the validity of statistical conclusions."
 format: pdf
