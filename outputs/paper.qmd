@@ -1,0 +1,70 @@
+---
+title: "Analysis of Data Manipulation: Implications and Corrective Strategies"
+author: Xu Qi
+thanks: "Code and data are available at: https://github.com/xuqi2002/gender_gap_and_hate_crime. Feedback given by Yichen Shi is available at:"
+date: "`r format(Sys.time(), '%d %B %Y')`"
+abstract: "This study investigates the effects of data processing errors, including instrument limitations and data manipulations on statistical analysis. By introducing such errors into a dataset generated from a normal distribution, I demonstrate how these errors can bias the mean and skew findings. The results of the study emphasize the importance of keeping vigilance and adopting a structured approach in data processing to prevent analytical inaccuracies and to maintain the validity of statistical conclusions."
+format: pdf
+number-sections: true
+bibliography: references.bib
+editor: visual
+---
+
+## Introduction 
+
+In this study, I conducted a simulation to understand the impact of data processing errors on statistical analysis. By generating datasets from normal distributions and introducing errors similar to those that might occur in a realistic situation, I aim to explore the impact of these errors on the results of data analysis and discuss approaches to reduce these problems.
+
+## Methods of data generation and processing
+
+I generate 1,000 observations from a normal distribution with mean 1 and standard deviation 1. However, a few manipulations were introduced to simulate the challenges of data collection and processing in reality:  
+
+* Instrument limitation: The first manipulation assumes there is an instrument error. Due to memory capacity constraints, the last 100 observations were covered by the first 100, thus creating non-random duplicates in the dataset.
+
+* Data cleaning errors: Two manipulations that make error were introduced in data cleaning. Firstly, half of the negative values were changed to positive values, which changed the distribution of the data. In addition, values between 1 and 1.1 were accidentally shifted by a decimal place, which reduced their magnitude.
+
+## Result 
+
+Following data manipulation, I conducted a statistical analysis to examine the mean of the altered dataset, to determine whether the mean of the true data generating process is greater than 0.
+
+```{r}
+#| echo: false
+
+# Set Seed
+set.seed(1212) 
+
+# Generate the original dataset
+original_dataset <- rnorm(1000, mean = 1, sd = 1)
+
+# Simulate the error: Overwrite the last 100 observations with the first 100
+original_dataset[901:1000] <- original_dataset[1:100]
+
+# Change half of the negative values to positive
+neg_indices <- which(original_dataset < 0)
+selected_indices <- sample(neg_indices, floor(length(neg_indices) / 2))
+original_dataset[selected_indices] <- -original_dataset[selected_indices]
+
+# Change decimal place for values between 1 and 1.1
+decimal_adjust_indices <- which(original_dataset >= 1 & original_dataset <= 1.1)
+original_dataset[decimal_adjust_indices] <- original_dataset[decimal_adjust_indices] / 10
+
+# Compute the mean of the "cleaned" dataset
+mean_cleaned_data <- mean(original_dataset)
+mean_cleaned_data
+
+# T-test to test if the mean is greater than 0
+t_test_result <- t.test(original_dataset, mu = 0, alternative = "greater")
+t_test_result
+
+```
+
+As the result above, the mean of the cleaned dataset was calculated to be approximately 1.02, suggesting that the true mean is greater than 0. While this result is consistent with the original parameters of the data generation process, these manipulations introduced some biases and errors that could lead to misunderstandings. 
+
+## Discussion
+
+This exploration of the effects of data processing errors reveals its impact on statistical analysis. The repetition of observations due to instrument  limitations and arbitrary alterations of data values introduced a substantial bias, skewing the dataset and undermining the integrity of statistical inferences. In addition, the distortion of the distribution of the dataset affects the validity of any statistical tests and models based on specific distributional assumptions.
+
+These manipulations highlight the importance of keeping focus during data processing. The potential for analytical misinterpretation is high, and researchers run the risk of drawing wrong conclusions that can lead to bad decisions. A number of approaches are necessary to avoid these risks. A comprehensive data auditing, for example, can identify data inconsistencies that may signal manipulation or error [@kenett_perruca_salini_2011] . Training and awareness programs for researchers are also important, as the risk of accidental data changes can be reduced [@batini_scannapieco_2016]. In addition, utilizing tools that can automatically detect anomalies is a good way to prevent human error.
+
+Moreover, all data processing steps should be documented. Not only does this documentation provide a clear audit trail for error detection, but it also improves the reproducibility of study results. These strategies will form a powerful framework that guarantees the accuracy and reliability of data analysis. By prioritizing data integrity, researchers can ensure that their conclusions are not only valid, but also a true reflection of what they want to know.
+
+## Reference
